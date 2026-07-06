@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Dream Day">
+<meta name="theme-color" content="#F5F1F8">
+<title>Dream Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23B84A6B'/%3E%3Ctext x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='Georgia'%3E✦%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#F5F1F8; --card:#FFFFFF; --ink:#2A2135; --muted:#8A7F96; --line:#E8E1EF;
+    --rose:#B84A6B; --rose-soft:#F7E4EA; --gold:#C29233;
+    --c-dance:#B84A6B; --c-influencer:#7A5CC2; --c-actress:#C2762E;
+    --c-money:#2E8A5C; --c-health:#3E8FA8; --c-faith:#8B6FB8; --c-heart:#C75A8C; --c-personal:#9A8F7A;
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:16px}
+  body{
+    font-family:'Karla',-apple-system,'Avenir Next',sans-serif;
+    background:var(--bg); color:var(--ink);
+    min-height:100vh; padding-bottom:calc(84px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:480px;margin:0 auto;padding:20px 18px 0}
+  h1,h2,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600}
+
+  /* ---------- header ---------- */
+  header{padding-top:calc(8px + env(safe-area-inset-top))}
+  .eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);font-weight:700}
+  h1{font-size:1.85rem;line-height:1.1;margin:.15rem 0 .2rem}
+  .datebar{display:flex;align-items:center;justify-content:space-between;margin:14px 0 4px}
+  .datebar .dlabel{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600}
+  .datebar .sub{font-size:.78rem;color:var(--muted)}
+  .navbtn{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;background:var(--card);
+    font-size:1rem;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .navbtn:active{background:var(--rose-soft)}
+  .todaychip{font-size:.72rem;color:var(--rose);font-weight:700;background:var(--rose-soft);
+    border:none;border-radius:99px;padding:5px 12px;cursor:pointer;margin-top:6px}
+
+  /* ---------- progress strip ---------- */
+  .strip{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;margin:12px 0 18px}
+  .ring{position:relative;width:56px;height:56px;flex:none}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:.78rem;font-weight:700}
+  .strip .stat{flex:1}
+  .strip .big{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600}
+  .strip .small{font-size:.78rem;color:var(--muted)}
+  .streakpill{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--gold);font-weight:700}
+  .streakpill .n{font-size:1.2rem;line-height:1}
+  .streakpill .l{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+
+  /* ---------- timeline ---------- */
+  .timeline{position:relative;padding-left:26px}
+  .timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(var(--rose) 0%,var(--line) 100%);border-radius:2px;opacity:.5}
+  .block{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px 14px 12px;margin-bottom:12px;transition:opacity .2s}
+  .block::before{content:'';position:absolute;left:-22.5px;top:20px;width:11px;height:11px;border-radius:50%;
+    background:var(--bg);border:2.5px solid var(--dot,var(--muted))}
+  .block.done{opacity:.72}
+  .block.done .btitle{text-decoration:line-through;text-decoration-color:var(--rose);text-decoration-thickness:2px}
+  .block.done::before{background:var(--dot,var(--muted))}
+  .brow{display:flex;align-items:flex-start;gap:10px}
+  .btime{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.04em;white-space:nowrap;padding-top:3px;min-width:52px}
+  .bmain{flex:1;min-width:0}
+  .btitle{font-family:'Fraunces',Georgia,serif;font-size:1.02rem;font-weight:600;line-height:1.25}
+  .bcat{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--dot,var(--muted));margin-top:3px}
+  .check{flex:none;width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:var(--card);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;color:transparent;transition:all .15s}
+  .check.on{background:var(--dot,var(--rose));border-color:var(--dot,var(--rose));color:#fff}
+  .notebtn{margin-top:10px;font-size:.78rem;font-weight:700;color:var(--rose);background:none;border:none;cursor:pointer;padding:0}
+  .notebox{margin-top:10px;display:none}
+  .notebox.open{display:block}
+  .notebox textarea{width:100%;min-height:74px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;
+    font-family:'Karla',sans-serif;font-size:.9rem;color:var(--ink);background:#FBF9FD;resize:vertical}
+  .notebox textarea:focus{outline:2px solid var(--rose-soft);border-color:var(--rose)}
+  .notehint{font-size:.7rem;color:var(--muted);margin-top:4px}
+  .haspreview{margin-top:8px;font-size:.84rem;color:var(--muted);background:#FBF9FD;border-left:3px solid var(--dot,var(--line));
+    border-radius:0 10px 10px 0;padding:8px 10px;white-space:pre-wrap;word-wrap:break-word}
+  .addoneoff{width:100%;border:1.5px dashed var(--line);background:none;border-radius:var(--radius);
+    padding:13px;font-family:'Karla',sans-serif;font-size:.86rem;font-weight:700;color:var(--muted);cursor:pointer;margin-bottom:8px}
+
+  /* ---------- coach / suggestions ---------- */
+  .nudge{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(135deg,#FDF6EC,#FBEFF3);
+    border:1px solid #F0DFC9;border-radius:var(--radius);padding:13px 14px;margin-bottom:14px}
+  .nudge .spark{font-size:1.1rem;line-height:1.2}
+  .nudge .ntxt{font-size:.84rem;line-height:1.45;color:#7A5A2E}
+  .nudge .ntxt strong{color:var(--ink)}
+  .mixbtn{margin-top:10px;margin-left:14px;font-size:.78rem;font-weight:700;color:var(--gold);
+    background:none;border:none;cursor:pointer;padding:0}
+  .sug{border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;
+    background:#FBF9FD;cursor:pointer;transition:border-color .15s}
+  .sug:active{border-color:var(--rose)}
+  .sug .st{font-weight:700;font-size:.92rem;line-height:1.35}
+  .sug .sw{font-size:.78rem;color:var(--muted);margin-top:3px;line-height:1.4}
+  .sug .tap{font-size:.68rem;font-weight:700;color:var(--rose);margin-top:6px;letter-spacing:.06em;text-transform:uppercase}
+  .thinking{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.86rem;padding:18px 4px}
+  .thinking .dots{display:inline-flex;gap:4px}
+  .thinking .dots span{width:7px;height:7px;border-radius:50%;background:var(--rose);opacity:.35;
+    animation:pulse 1.1s infinite}
+  .thinking .dots span:nth-child(2){animation-delay:.18s}
+  .thinking .dots span:nth-child(3){animation-delay:.36s}
+  @keyframes pulse{0%,100%{opacity:.25;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  .coachnote{font-size:.74rem;color:var(--muted);margin-top:4px;line-height:1.45}
+
+  /* ---------- dictation / commitments ---------- */
+  .micwrap{display:flex;flex-direction:column;align-items:center;gap:10px;padding:6px 0 14px}
+  .micbtn{width:74px;height:74px;border-radius:50%;border:none;background:var(--rose);color:#fff;
+    font-size:1.7rem;cursor:pointer;box-shadow:0 6px 18px rgba(184,74,107,.35);transition:transform .15s}
+  .micbtn:active{transform:scale(.94)}
+  .micbtn.rec{background:#B3402E;animation:micpulse 1.2s infinite}
+  @keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(179,64,46,.45)}50%{box-shadow:0 0 0 16px rgba(179,64,46,0)}}
+  .miclabel{font-size:.8rem;color:var(--muted);text-align:center;line-height:1.45}
+  .dictbox{width:100%;min-height:96px;border:1px solid var(--line);border-radius:14px;padding:12px;
+    font-family:'Karla',sans-serif;font-size:.95rem;background:#FBF9FD;color:var(--ink);resize:vertical}
+  .dictbox:focus{outline:2px solid var(--rose-soft);border-color:var(--rose)}
+  .rev{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:14px;
+    padding:11px 13px;margin-bottom:9px;background:#FBF9FD}
+  .rev.off{opacity:.4}
+  .rev .rmain{flex:1;min-width:0}
+  .rev .rt{font-weight:700;font-size:.9rem}
+  .rev .rs{font-size:.75rem;color:var(--muted);margin-top:2px}
+  .rev .rtog{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid var(--line);background:var(--card);
+    color:transparent;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .rev.on .rtog{background:var(--rose);border-color:var(--rose);color:#fff}
+  .sectionlabel{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    margin:22px 0 10px}
+  .cmt{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:11px 13px;margin-bottom:9px}
+  .cmt .swatch{width:10px;height:30px;border-radius:6px;flex:none}
+  .cmt .cmain{flex:1;min-width:0}
+  .cmt .ct{font-weight:700;font-size:.88rem}
+  .cmt .cs{font-size:.73rem;color:var(--muted)}
+
+  /* ---------- paywall & onboarding ---------- */
+  .paywall-hero{text-align:center;padding:6px 0 4px}
+  .paywall-hero .pico{font-size:2rem}
+  .pfeat{display:flex;gap:10px;align-items:flex-start;margin-bottom:11px;font-size:.88rem;line-height:1.45}
+  .pfeat .fdot{color:var(--rose);font-weight:700}
+  .plegal{font-size:.68rem;color:var(--muted);text-align:center;line-height:1.5;margin-top:12px}
+  .plegal a{color:var(--muted)}
+  .onb{position:fixed;inset:0;background:var(--bg);z-index:60;overflow-y:auto;display:none}
+  .onb.open{display:block}
+  .onb .wrap{padding-top:calc(30px + env(safe-area-inset-top));padding-bottom:40px}
+  .onb h1{font-size:1.7rem;margin-bottom:8px}
+  .onb .lead{font-size:.92rem;color:var(--muted);line-height:1.6;margin-bottom:20px}
+  .pillcard{display:flex;align-items:center;gap:11px;background:var(--card);border:1.5px solid var(--line);
+    border-radius:14px;padding:11px 13px;margin-bottom:9px}
+  .pillcard.sel{border-color:var(--pc)}
+  .pillcard .pdot{width:12px;height:12px;border-radius:50%;background:var(--pc);flex:none}
+  .pillcard input{flex:1;border:none;background:none;font-family:'Karla',sans-serif;font-size:.92rem;
+    font-weight:700;color:var(--ink);min-width:0}
+  .pillcard input:focus{outline:none}
+  .pillcard .ptog{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid var(--line);
+    background:var(--card);color:transparent;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .pillcard.sel .ptog{background:var(--pc);border-color:var(--pc);color:#fff}
+  .onbstep{display:none}
+  .onbstep.active{display:block}
+
+  /* ---------- plan tab ---------- */
+  .planintro{font-size:.86rem;color:var(--muted);line-height:1.5;margin:6px 0 16px}
+  .pblock{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;
+    display:flex;align-items:center;gap:10px}
+  .pblock .swatch{width:10px;height:34px;border-radius:6px;flex:none}
+  .pblock .pmain{flex:1;min-width:0}
+  .pblock .pt{font-weight:700;font-size:.92rem}
+  .pblock .ps{font-size:.74rem;color:var(--muted)}
+  .iconbtn{border:none;background:none;font-size:1rem;cursor:pointer;color:var(--muted);padding:6px}
+  .bigbtn{width:100%;border:none;border-radius:14px;padding:14px;font-family:'Karla',sans-serif;
+    font-size:.95rem;font-weight:700;cursor:pointer;margin-top:10px}
+  .bigbtn.primary{background:var(--rose);color:#fff}
+  .bigbtn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .rowbtns{display:flex;gap:10px}
+  .rowbtns .bigbtn{flex:1}
+
+  /* ---------- editor sheet ---------- */
+  .sheetbg{position:fixed;inset:0;background:rgba(42,33,53,.45);display:none;z-index:40}
+  .sheetbg.open{display:block}
+  .sheet{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-radius:24px 24px 0 0;
+    padding:20px 20px calc(24px + env(safe-area-inset-bottom));z-index:41;max-width:480px;margin:0 auto;
+    transform:translateY(105%);transition:transform .25s ease;max-height:86vh;overflow-y:auto}
+  .sheet.open{transform:translateY(0)}
+  .sheet h2{font-size:1.25rem;margin-bottom:14px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:6px}
+  .field input[type=text],.field input[type=time],.field select{
+    width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-family:'Karla',sans-serif;
+    font-size:.95rem;background:#FBF9FD;color:var(--ink);-webkit-appearance:none}
+  .field input:focus,.field select:focus{outline:2px solid var(--rose-soft);border-color:var(--rose)}
+  .timerow{display:flex;gap:10px}
+  .timerow .field{flex:1}
+  .catgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .catopt{border:1.5px solid var(--line);border-radius:12px;padding:9px 10px;font-size:.8rem;font-weight:700;
+    background:var(--card);cursor:pointer;text-align:left;color:var(--ink);font-family:'Karla',sans-serif}
+  .catopt.sel{border-color:var(--cc);color:var(--cc);background:color-mix(in srgb,var(--cc) 8%, white)}
+  .catopt .dotc{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--cc);margin-right:7px}
+  .danger{color:#B3402E;background:none;border:none;font-weight:700;font-size:.85rem;cursor:pointer;margin-top:14px;width:100%;padding:8px}
+
+  /* ---------- progress tab ---------- */
+  .goalcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+  .goalcard .gh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .goalcard .gname{font-weight:700;font-size:.92rem}
+  .goalcard .gnum{font-size:.78rem;color:var(--muted);font-weight:700}
+  .bar{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+  .bar>div{height:100%;border-radius:99px;transition:width .4s ease}
+  .pillars{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:16px}
+  .pillars h2{font-size:1.1rem;margin-bottom:8px}
+  .pillars p{font-size:.86rem;color:var(--muted);line-height:1.55}
+  .weekdots{display:flex;gap:7px;margin-top:12px}
+  .wd{flex:1;text-align:center}
+  .wd .dotday{width:100%;aspect-ratio:1;max-width:40px;margin:0 auto;border-radius:12px;background:var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--muted)}
+  .wd .dotday.full{background:var(--rose);color:#fff}
+  .wd .dotday.part{background:var(--rose-soft);color:var(--rose)}
+  .wd .lbl{font-size:.62rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+
+  /* ---------- tab bar ---------- */
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.92);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .tabs{max-width:480px;margin:0 auto;display:flex;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+  .tab{flex:1;border:none;background:none;font-family:'Karla',sans-serif;font-size:.72rem;font-weight:700;
+    color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0}
+  .tab .ic{font-size:1.25rem;line-height:1}
+  .tab.active{color:var(--rose)}
+  .view{display:none}
+  .view.active{display:block}
+  .toast{position:fixed;bottom:calc(96px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;font-size:.82rem;font-weight:700;padding:10px 18px;border-radius:99px;
+    opacity:0;transition:all .25s;z-index:50;pointer-events:none;white-space:nowrap}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .empty{text-align:center;color:var(--muted);font-size:.88rem;padding:30px 10px;line-height:1.6}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">✦ Dream Day</div>
+    <h1 id="greeting">Build the life you wrote down.</h1>
+  </header>
+
+  <!-- ============ TODAY ============ -->
+  <section id="view-today" class="view active">
+    <div class="datebar">
+      <button class="navbtn" id="prevDay" aria-label="Previous day">‹</button>
+      <div style="text-align:center">
+        <div class="dlabel" id="dateLabel"></div>
+        <div class="sub" id="dateSub"></div>
+      </div>
+      <button class="navbtn" id="nextDay" aria-label="Next day">›</button>
+    </div>
+    <div style="text-align:center"><button class="todaychip" id="jumpToday" style="display:none">Back to today</button></div>
+
+    <div class="strip">
+      <div class="ring">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="24" fill="none" stroke="var(--line)" stroke-width="6"/>
+          <circle id="ringFg" cx="28" cy="28" r="24" fill="none" stroke="var(--rose)" stroke-width="6"
+            stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+        </svg>
+        <div class="pct" id="ringPct">0%</div>
+      </div>
+      <div class="stat">
+        <div class="big" id="stripTitle">Ready when you are</div>
+        <div class="small" id="stripSub"></div>
+      </div>
+      <div class="streakpill" title="Day streak">
+        <div class="n" id="streakNum">0</div>
+        <div class="l">streak</div>
+      </div>
+    </div>
+
+    <div id="nudge"></div>
+    <div class="timeline" id="timeline"></div>
+    <button class="addoneoff" id="addOneOff">＋ Add a block just for this day</button>
+  </section>
+
+  <!-- ============ PLAN ============ -->
+  <section id="view-plan" class="view">
+    <p class="planintro">This is your <strong>daily routine</strong> — the schedule every new day starts from.
+      Changes here shape tomorrow onward; days you've already worked on keep their notes.</p>
+    <div id="planList"></div>
+    <button class="bigbtn primary" id="addRoutine">＋ Add a routine block</button>
+    <button class="bigbtn ghost" id="dictateBtn">🎤 Tell me your schedule</button>
+    <div class="sectionlabel" id="cmtLabel" style="display:none">Classes, work &amp; commitments</div>
+    <div id="cmtList"></div>
+    <button class="bigbtn ghost" id="applyToday">Apply routine to today's schedule</button>
+    <div class="rowbtns">
+      <button class="bigbtn ghost" id="exportBtn">Back up data</button>
+      <button class="bigbtn ghost" id="importBtn">Restore backup</button>
+    </div>
+    <input type="file" id="importFile" accept=".json" style="display:none">
+  </section>
+
+  <!-- ============ PROGRESS ============ -->
+  <section id="view-progress" class="view">
+    <div class="pillars">
+      <h2>Your dream life</h2>
+      <p>A career that makes you happy — dancer, influencer, actress. Understanding money.
+      A loving home. Amazing internal &amp; external health. Every checked block is a brick.</p>
+      <div class="weekdots" id="weekDots"></div>
+    </div>
+    <h2 class="serif" style="font-size:1.1rem;margin:4px 0 10px">This week, hour by hour</h2>
+    <div id="goalBars"></div>
+  </section>
+</div>
+
+<!-- ============ EDITOR SHEET ============ -->
+<div class="sheetbg" id="sheetBg"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <h2 id="sheetTitle">Edit block</h2>
+  <div class="field">
+    <label for="fTitle">What is it?</label>
+    <input type="text" id="fTitle" placeholder="e.g. Learn choreography — slow song">
+  </div>
+  <div class="timerow">
+    <div class="field"><label for="fStart">Starts</label><input type="time" id="fStart"></div>
+    <div class="field"><label for="fEnd">Ends</label><input type="time" id="fEnd"></div>
+  </div>
+  <div class="field">
+    <label>Life pillar</label>
+    <div class="catgrid" id="catGrid"></div>
+  </div>
+  <button class="bigbtn primary" id="sheetSave">Save block</button>
+  <button class="danger" id="sheetDelete" style="display:none">Delete this block</button>
+</div>
+
+<!-- ============ SUGGESTIONS SHEET ============ -->
+<div class="sheetbg" id="sugBg"></div>
+<div class="sheet" id="sugSheet" role="dialog" aria-modal="true">
+  <h2 id="sugTitle">Fresh ideas ✨</h2>
+  <div id="sugBody"></div>
+  <button class="bigbtn ghost" id="sugMore">Shuffle — show me different ideas</button>
+</div>
+
+<!-- ============ DICTATION SHEET ============ -->
+<div class="sheetbg" id="dictBg"></div>
+<div class="sheet" id="dictSheet" role="dialog" aria-modal="true">
+  <h2>Tell me your schedule 🎤</h2>
+  <div class="micwrap">
+    <button class="micbtn" id="micBtn" aria-label="Start dictation">🎤</button>
+    <div class="miclabel" id="micLabel">Tap and talk — classes, work shifts, due dates.<br>
+      <em>"Biology Mon Wed Fri 9 to 10:15, work Tuesday and Thursday 4 to 9 PM,
+      psych project due July 24th."</em></div>
+  </div>
+  <textarea class="dictbox" id="dictText" placeholder="Or type it here — the mic key on your keyboard works too."></textarea>
+  <button class="bigbtn primary" id="dictParse">Build my schedule</button>
+  <div id="dictReview"></div>
+</div>
+
+<!-- ============ PAYWALL SHEET ============ -->
+<div class="sheetbg" id="payBg"></div>
+<div class="sheet" id="paySheet" role="dialog" aria-modal="true">
+  <div class="paywall-hero"><div class="pico">✨</div><h2>Coach Premium</h2></div>
+  <div style="margin:14px 0 4px">
+    <div class="pfeat"><span class="fdot">✦</span><span><strong>Personal AI Coach</strong> — fresh activity ideas generated from <em>your</em> recent journal, not a generic list.</span></div>
+    <div class="pfeat"><span class="fdot">✦</span><span><strong>Smart schedule dictation</strong> — speak your classes, shifts, and deadlines in plain language; AI builds the blocks.</span></div>
+    <div class="pfeat"><span class="fdot">✦</span><span><strong>Variety intelligence</strong> — the coach notices repetition and steers you toward balanced growth.</span></div>
+  </div>
+  <button class="bigbtn primary" id="payBuy">Subscribe — <span id="payPrice"></span></button>
+  <button class="bigbtn ghost" id="payRestore">Restore purchases</button>
+  <div class="plegal">Auto-renews monthly until cancelled in Settings.
+    <a href="#" id="payTerms">Terms</a> · <a href="#" id="payPrivacy">Privacy</a></div>
+</div>
+
+<!-- ============ ONBOARDING ============ -->
+<div class="onb" id="onb">
+  <div class="wrap">
+    <div class="onbstep active" id="onb1">
+      <div class="eyebrow">✦ Dream Day</div>
+      <h1>What do you want<br>for your life?</h1>
+      <p class="lead">Before schedules and to-dos, write the destination. Dream Day turns your answer
+        into a daily plan, a journal, and a coach that keeps you moving toward it.</p>
+      <div class="field"><label for="onbName">What's your name?</label>
+        <input type="text" id="onbName" placeholder="Your first name"></div>
+      <button class="bigbtn primary" id="onbNext1">Next</button>
+    </div>
+    <div class="onbstep" id="onb2">
+      <h1>Choose your pillars</h1>
+      <p class="lead">These are the areas of life you'll invest in daily. Tap to include,
+        and rename any of them to fit your dream — "Dance" can become anything you're building.</p>
+      <div id="onbPillars"></div>
+      <button class="bigbtn primary" id="onbNext2">Next</button>
+    </div>
+    <div class="onbstep" id="onb3">
+      <h1>Your starter day</h1>
+      <p class="lead">One focused block per pillar. You can reshape everything later —
+        times, lengths, extra blocks — in the Plan tab.</p>
+      <div class="field"><label for="onbStart">When does your day start?</label>
+        <input type="time" id="onbStart" value="08:30"></div>
+      <div id="onbPreview"></div>
+      <button class="bigbtn primary" id="onbGo">Start my journey ✦</button>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <div class="tabs">
+    <button class="tab active" data-tab="today"><span class="ic">☀️</span>Today</button>
+    <button class="tab" data-tab="plan"><span class="ic">📋</span>Plan</button>
+    <button class="tab" data-tab="progress"><span class="ic">🌱</span>Progress</button>
+  </div>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= Dream Day =================
+   Single-file planner + accountability journal.
+   Works in two homes:
+   - Hosted as a website / PWA  -> localStorage
+   - Inside a Claude artifact   -> window.storage
+================================================ */
+
+// ============ PRODUCT CONFIG — edit before shipping ============
+const CONFIG = {
+  // Your Cloudflare Worker URL once deployed, e.g. 'https://dreamday-ai.yourname.workers.dev'
+  // Leave '' during personal/web use (falls back to built-in coach, or direct AI inside Claude).
+  AI_ENDPOINT: '',
+
+  // RevenueCat PUBLIC Apple API key (starts with 'appl_'). Safe to ship in the app.
+  REVENUECAT_APPLE_KEY: '',
+
+  // RevenueCat entitlement identifier for the premium tier
+  ENTITLEMENT: 'coach',
+
+  // true  = everything unlocked (her personal build / development)
+  // false = App Store build: AI Coach requires an active subscription
+  DEV_PREMIUM: true,
+
+  PRICE_TEXT: '$2.99 / month',
+  LINKS: {
+    privacy: 'https://YOURSITE.example/privacy',
+    terms:   'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
+  }
+};
+
+// ---------- categories ----------
+const CATS = {
+  dance:      {name:'Dance',           color:'var(--c-dance)'},
+  influencer: {name:'Influencer',      color:'var(--c-influencer)'},
+  actress:    {name:'Actress',         color:'var(--c-actress)'},
+  money:      {name:'Money',           color:'var(--c-money)'},
+  health:     {name:'Health & Beauty', color:'var(--c-health)'},
+  faith:      {name:'Faith & Growth',  color:'var(--c-faith)'},
+  heart:      {name:'Home & Heart',    color:'var(--c-heart)'},
+  school:     {name:'School',          color:'#4A6FC2'},
+  work:       {name:'Work',            color:'#5F6B7A'},
+  personal:   {name:'Personal',        color:'var(--c-personal)'}
+};
+
+// ---------- default routine (from her handwritten schedule) ----------
+const DEFAULT_TEMPLATE = [
+  {id:'t1', start:'08:30', end:'09:00', title:'Wake up · prayer & meditation', cat:'faith'},
+  {id:'t2', start:'09:00', end:'10:00', title:'Workout + cardio', cat:'health'},
+  {id:'t3', start:'10:00', end:'10:30', title:'Make a healthy breakfast', cat:'health'},
+  {id:'t4', start:'10:30', end:'11:30', title:'Dance hour — stretch & choreography', cat:'dance'},
+  {id:'t5', start:'11:30', end:'12:30', title:'Money hour — finance research & budget', cat:'money'},
+  {id:'t6', start:'12:30', end:'13:00', title:'Lunch break', cat:'personal'},
+  {id:'t7', start:'13:00', end:'14:00', title:'Influencer hour — niche, content, editing', cat:'influencer'},
+  {id:'t8', start:'14:00', end:'15:00', title:'Actress hour — monologues & auditions', cat:'actress'},
+  {id:'t9', start:'15:00', end:'15:30', title:'Journal & reflect', cat:'faith'},
+  {id:'t10',start:'15:30', end:'16:00', title:'Skincare & beauty routine', cat:'health'}
+];
+
+const NOTE_HINTS = {
+  dance:'What did you practice? How did it feel?',
+  influencer:'What did you research, film, or edit?',
+  actress:'Which monologue? What did you notice watching great acting?',
+  money:'What did you learn or review today?',
+  health:'What did you eat / how did you move / how do you feel?',
+  faith:'What are you grateful for? What did you pray about?',
+  heart:'What did you practice or learn?',
+  personal:'Anything worth remembering?'
+};
+
+// ---------- built-in coach library (offline fallback) ----------
+const COACH = {
+  dance: [
+    {title:'Learn 30 sec of a fast choreo, film & review', why:'Speed work + the camera shows what mirrors miss.'},
+    {title:'Lyrical piece — drill slow musicality', why:'Contrast: control and emotion, not just speed.'},
+    {title:'Memory drill: last week’s choreo, no video', why:'Pros retain choreography — train the recall muscle.'},
+    {title:'Deep stretch + splits progression, 40 min', why:'Flexibility is a long game; consistency wins.'},
+    {title:'Freestyle: 3 songs, 3 styles, film one take each', why:'Versatility gets dancers hired.'},
+    {title:'Dance-cardio HIIT, 20 min nonstop', why:'Stamina for full-out performances.'},
+    {title:'Copy 8 counts from a pro performance exactly', why:'Studying greatness sharpens detail.'},
+    {title:'Technique day: turns & balance drills', why:'Clean fundamentals make everything look better.'}
+  ],
+  influencer: [
+    {title:'Analyze 3 creators in your niche — hooks & pacing', why:'Reverse-engineer what already works.'},
+    {title:'Batch-film 3 short videos in one session', why:'Batching beats waiting for daily motivation.'},
+    {title:'Recreate a trending edit with your own clip', why:'Editing drills build real speed.'},
+    {title:'Write 10 hook lines for future videos', why:'The first 2 seconds decide everything.'},
+    {title:'Practice talking to camera: 5 one-take intros', why:'On-camera comfort is a trained skill.'},
+    {title:'Plan next week’s content calendar, 30 min', why:'Consistency is the whole game.'},
+    {title:'Engagement hour: study which comments get replies', why:'Community grows accounts, not luck.'}
+  ],
+  actress: [
+    {title:'Learn a comedic monologue', why:'Range — contrast with your dramatic pieces.'},
+    {title:'Cold-read drill: random scene, perform in 10 min', why:'Auditions rarely give you time.'},
+    {title:'Watch one great film scene 3x, note the choices', why:'Actors study actors.'},
+    {title:'Self-tape a monologue like a real submission', why:'Framing, light, slate — practice the format.'},
+    {title:'One line, five intentions drill', why:'Flexibility of delivery is the craft.'},
+    {title:'Research 3 casting sites, note open calls', why:'Opportunities go to people who look.'},
+    {title:'20 min of accent or voice work', why:'A new tool for your toolbox.'}
+  ],
+  money: [
+    {title:'Teach-back: explain one investing term out loud', why:'If you can teach it, you own it.'},
+    {title:'Track & categorize every dollar from this week', why:'Awareness comes before control.'},
+    {title:'Study one company: what they sell, how they earn', why:'Stocks make sense when businesses do.'},
+    {title:'Index funds video → write 5 takeaways', why:'The boring strategy that builds wealth.'},
+    {title:'Build a mini budget for your first apartment', why:'Practice the real numbers before they’re real.'},
+    {title:'Read about Roth IRAs — 3 surprising facts', why:'Starting at 18 is a superpower.'},
+    {title:'Compare 2 savings accounts & their rates', why:'Make your money earn while it sits.'}
+  ],
+  health: [
+    {title:'Dance-cardio instead of your usual cardio', why:'Same heart rate, double the joy.'},
+    {title:'Bodyweight strength circuit: squats, push-ups, planks', why:'Strong is a skill — no gym needed.'},
+    {title:'45-min outdoor walk + a good podcast', why:'Movement plus sunlight resets everything.'},
+    {title:'Cook a new recipe with a protein you rarely use', why:'Variety keeps healthy eating interesting.'},
+    {title:'30-min yoga or pilates follow-along', why:'Mobility is recovery in disguise.'},
+    {title:'Meal-prep 3 healthy lunches', why:'Future-you eats well on autopilot.'},
+    {title:'Interval sprints: 10 × 30s on / 60s off', why:'Short, hard, done.'},
+    {title:'Recovery day: foam roll, stretch, 10-min meditation', why:'Rest is part of the routine, not a break from it.'}
+  ],
+  faith: [
+    {title:'Gratitude list of 10, then pray over 3', why:'Gratitude rewires the day.'},
+    {title:'Read one chapter & journal what stood out', why:'Slow reading beats fast scrolling.'},
+    {title:'15-min silent meditation, phone in another room', why:'Stillness is a practice.'},
+    {title:'Write a letter to your future self', why:'Clarity about who you’re becoming.'},
+    {title:'Memorize one verse or quote that steadies you', why:'Something to reach for on hard days.'}
+  ],
+  heart: [
+    {title:'Cook a new dinner recipe start to finish', why:'Skill grows one meal at a time.'},
+    {title:'Active-listening practice in one conversation', why:'Hearing people well is rare and learnable.'},
+    {title:'Plan a thoughtful gesture for someone you love', why:'Small intentional acts build strong bonds.'},
+    {title:'Journal: what does a healthy partnership look like?', why:'Know what you value before you need to.'}
+  ],
+  personal: [
+    {title:'Reset one small space, 15 minutes', why:'Order outside, calm inside.'},
+    {title:'Call or voice-note someone you love', why:'Connection counts as productivity.'},
+    {title:'Read 20 pages of any book', why:'Twenty pages a day is 30 books a year.'}
+  ]
+};
+
+// recent activity for a pillar (titles + notes, last 7 days) — feeds the AI coach
+function recentForPillar(cat){
+  const out = [];
+  for (let i = 0; i < 7; i++){
+    const iso = shiftISO(todayISO(), -i);
+    const d = DB.days[iso];
+    if (!d) continue;
+    d.blocks.forEach(b=>{
+      if (b.cat === cat && b.done) out.push({date: iso, title: b.title, note: (b.note||'').slice(0,140)});
+    });
+  }
+  return out.slice(0, 12);
+}
+
+// ---------- AI coach (with offline fallback) ----------
+let aiAvailable = null; // unknown until first try
+async function fetchAISuggestions(block){
+  const cat = CATS[block.cat] || CATS.personal;
+  const recent = recentForPillar(block.cat);
+  const prompt =
+`You are an encouraging coach inside a daily-planner app for an 18-year-old woman building toward her dream life: professional dancer, influencer, actress, plus financial literacy, faith, and internal/external health.
+
+Life pillar: ${pName(block.cat)}
+Current schedule block: "${block.title}" (${block.start}–${block.end})
+What she has done for this pillar in the last 7 days (most recent first):
+${recent.length ? recent.map(r=>`- ${r.date}: ${r.title}${r.note ? ' — her note: "'+r.note+'"' : ''}`).join('\n') : '- nothing logged yet'}
+
+Suggest 3 specific activities for this block that (1) serve this pillar, (2) add variety versus her recent history — if she has repeated something, gently steer to a fresh angle, (3) are free or nearly free and doable at home or nearby, (4) fit roughly the block's length.
+
+Respond with ONLY a JSON array, no markdown fences, no other text:
+[{"title":"max 60 chars, imperative, specific","why":"max 90 chars, motivating reason"}]`;
+
+  const text = await aiCall(prompt, 1000);
+  const clean = text.replace(/```json|```/g,'').trim();
+  const arr = JSON.parse(clean);
+  if (!Array.isArray(arr) || !arr.length) throw new Error('bad shape');
+  return arr.slice(0,3).map(s=>({title:String(s.title).slice(0,80), why:String(s.why||'').slice(0,120)}));
+}
+
+// offline picks: rotate through the library, skipping things she's done recently
+function fallbackSuggestions(block, offset = 0){
+  const pool = COACH[block.cat] || COACH.personal;
+  const recentTitles = recentForPillar(block.cat).map(r=>r.title.toLowerCase());
+  const fresh = pool.filter(p =>
+    p.title.toLowerCase() !== block.title.toLowerCase() &&
+    !recentTitles.some(t => t.includes(p.title.toLowerCase().slice(0,18))));
+  const list = fresh.length >= 3 ? fresh : pool;
+  const seed = Math.floor((Date.now()/86400000)) + offset; // rotates daily + shuffle presses
+  const picks = [];
+  for (let i = 0; i < Math.min(3, list.length); i++)
+    picks.push(list[(seed + i * 3 + offset * 2) % list.length]);
+  return [...new Set(picks)];
+}
+
+// ---------- storage adapter ----------
+const KEY = 'dreamday-data-v1';
+const store = {
+  mode: null,
+  async load(){
+    // Try Claude artifact storage first
+    try{
+      if (window.storage && window.storage.get){
+        try{
+          const r = await window.storage.get(KEY);
+          this.mode = 'claude';
+          return r && r.value ? JSON.parse(r.value) : null;
+        }catch(e){ this.mode = 'claude'; return null; } // key missing
+      }
+    }catch(e){}
+    // Fall back to localStorage (hosted PWA)
+    try{
+      this.mode = 'local';
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ this.mode = 'memory'; return null; }
+  },
+  _t:null,
+  save(data){
+    clearTimeout(this._t);
+    this._t = setTimeout(async ()=>{
+      const raw = JSON.stringify(data);
+      try{
+        if (this.mode === 'claude'){ await window.storage.set(KEY, raw); return; }
+        if (this.mode === 'local'){ localStorage.setItem(KEY, raw); return; }
+      }catch(e){ console.error('save failed', e); }
+    }, 350);
+  }
+};
+
+// ---------- billing (RevenueCat via Capacitor; inert on web) ----------
+const Billing = {
+  ready:false, premium:false, userId:null, priceText: CONFIG.PRICE_TEXT, _pkg:null,
+  plugin(){ return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Purchases) || null; },
+  async init(){
+    if (CONFIG.DEV_PREMIUM){ this.premium = true; this.ready = true; return; }
+    const P = this.plugin();
+    if (!P || !CONFIG.REVENUECAT_APPLE_KEY){ this.ready = true; return; }
+    try{
+      await P.configure({ apiKey: CONFIG.REVENUECAT_APPLE_KEY });
+      const id = await P.getAppUserID();
+      this.userId = id.appUserID || id;
+      await this.refresh();
+      try{
+        const offers = await P.getOfferings();
+        const pkg = offers.current && offers.current.availablePackages && offers.current.availablePackages[0];
+        if (pkg){ this._pkg = pkg; if (pkg.product && pkg.product.priceString) this.priceText = pkg.product.priceString + ' / month'; }
+      }catch(e){}
+    }catch(e){ console.error('billing init', e); }
+    this.ready = true;
+  },
+  async refresh(){
+    const P = this.plugin(); if (!P) return;
+    try{
+      const info = await P.getCustomerInfo();
+      const ents = (info.customerInfo || info).entitlements;
+      this.premium = !!(ents && ents.active && ents.active[CONFIG.ENTITLEMENT]);
+    }catch(e){}
+  },
+  async purchase(){
+    const P = this.plugin(); if (!P || !this._pkg) throw new Error('store unavailable');
+    await P.purchasePackage({ aPackage: this._pkg });
+    await this.refresh();
+  },
+  async restore(){
+    const P = this.plugin(); if (!P) throw new Error('store unavailable');
+    await P.restorePurchases();
+    await this.refresh();
+  }
+};
+function hasPremium(){ return CONFIG.DEV_PREMIUM || Billing.premium; }
+
+// ---------- unified AI call ----------
+// Routes: your backend Worker (public app) -> direct API (inside Claude) -> throws (offline)
+async function aiCall(prompt, maxTokens = 1500){
+  if (CONFIG.AI_ENDPOINT){
+    const res = await fetch(CONFIG.AI_ENDPOINT, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ prompt, userId: Billing.userId, max_tokens: maxTokens })
+    });
+    if (res.status === 402) throw new Error('not_subscribed');
+    if (!res.ok) throw new Error('AI unavailable');
+    const data = await res.json();
+    if (!data.text) throw new Error('AI unavailable');
+    return data.text;
+  }
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({model:'claude-sonnet-4-6', max_tokens:maxTokens, messages:[{role:'user', content: prompt}]})
+  });
+  if (!res.ok) throw new Error('AI unavailable');
+  const data = await res.json();
+  return (data.content||[]).filter(i=>i.type==='text').map(i=>i.text).join('\n');
+}
+
+
+// ---------- state ----------
+let DB = { template: DEFAULT_TEMPLATE, days: {}, commitments: [] };
+let viewDate = todayISO();
+let editing = null; // {scope:'template'|'day', id or null}
+
+function todayISO(d = new Date()){
+  const z = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`;
+}
+function shiftISO(iso, days){
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + days);
+  return todayISO(d);
+}
+function fmtDate(iso){
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString(undefined, {weekday:'long', month:'long', day:'numeric'});
+}
+function fmtTime(hm){
+  const [h,m] = hm.split(':').map(Number);
+  const ap = h >= 12 ? 'PM' : 'AM';
+  const hh = ((h + 11) % 12) + 1;
+  return `${hh}:${String(m).padStart(2,'0')} ${ap}`;
+}
+function hours(b){
+  const [h1,m1] = b.start.split(':').map(Number);
+  const [h2,m2] = b.end.split(':').map(Number);
+  return Math.max(0, (h2*60+m2 - h1*60-m1) / 60);
+}
+const uid = () => 'b' + Math.random().toString(36).slice(2,9);
+const esc = s => (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// commitments (classes, shifts, deadlines) that land on a given date
+function weekdayOf(iso){ return new Date(iso + 'T12:00:00').getDay(); } // 0=Sun
+function overlaps(a, b){ return a.start < b.end && b.start < a.end; }
+function commitmentsFor(iso){
+  const wd = weekdayOf(iso);
+  return (DB.commitments || []).filter(c =>
+    (c.date && c.date === iso) ||
+    (c.days && c.days.includes(wd) && (!c.until || iso <= c.until) && (!c.from || iso >= c.from))
+  );
+}
+// build a fresh day: commitments first, routine blocks that don't collide with them
+function freshBlocks(iso){
+  const cmts = commitmentsFor(iso).map(c => ({
+    id: uid(), start: c.start, end: c.end, title: c.title, cat: c.cat || 'personal',
+    done:false, note:'', fixed:true
+  }));
+  const routine = DB.template
+    .filter(t => !cmts.some(c => overlaps(t, c)))
+    .map(t => ({...t, id: uid(), done:false, note:''}));
+  return [...cmts, ...routine];
+}
+// get (or lazily create) the block list for a date.
+// Previews are cached so the first tap on a fresh day acts on the SAME blocks the user sees.
+let previewCache = {};
+function invalidatePreviews(){ previewCache = {}; }
+function dayBlocks(iso, create = false){
+  if (DB.days[iso]) return DB.days[iso].blocks;
+  if (!previewCache[iso]) previewCache[iso] = freshBlocks(iso);
+  if (create){ DB.days[iso] = { blocks: previewCache[iso] }; delete previewCache[iso]; return DB.days[iso].blocks; }
+  return previewCache[iso];
+}
+function ensureDay(iso){
+  if (!DB.days[iso]){
+    DB.days[iso] = { blocks: previewCache[iso] || freshBlocks(iso) };
+    delete previewCache[iso];
+  }
+  return DB.days[iso];
+}
+
+// ---------- rendering: TODAY ----------
+function renderToday(){
+  const isToday = viewDate === todayISO();
+  document.getElementById('dateLabel').textContent = isToday ? 'Today' : fmtDate(viewDate);
+  document.getElementById('dateSub').textContent = isToday ? fmtDate(viewDate) : '';
+  document.getElementById('jumpToday').style.display = isToday ? 'none' : 'inline-block';
+
+  const blocks = [...dayBlocks(viewDate)].sort((a,b)=>a.start.localeCompare(b.start));
+  const tl = document.getElementById('timeline');
+  tl.innerHTML = blocks.length ? '' : '<div class="empty">No blocks yet.<br>Add one below, or set up your routine in Plan.</div>';
+
+  blocks.forEach(b=>{
+    const cat = CATS[b.cat] || CATS.personal;
+    const el = document.createElement('div');
+    el.className = 'block' + (b.done ? ' done' : '');
+    el.style.setProperty('--dot', cat.color);
+    el.innerHTML = `
+      <div class="brow">
+        <div class="btime">${fmtTime(b.start)}<br><span style="font-weight:400">${fmtTime(b.end)}</span></div>
+        <div class="bmain">
+          <div class="btitle">${esc(b.title)}</div>
+          <span class="bcat">${esc(pName(b.cat))}</span>
+          ${b.note && !b._open ? `<div class="haspreview">${esc(b.note)}</div>` : ''}
+          <button class="notebtn" data-act="note" data-id="${b.id}">${b._open ? 'Hide note' : (b.note ? '✎ Edit note' : '✎ Add a note — what did you do?')}</button>
+          <div class="notebox ${b._open ? 'open' : ''}">
+            <textarea data-note="${b.id}" placeholder="${esc(NOTE_HINTS[b.cat] || '')}">${esc(b.note)}</textarea>
+            <div class="notehint">Saves automatically ✓</div>
+          </div>
+          <button class="mixbtn" data-act="mix" data-id="${b.id}">✨ Mix it up</button>
+          <button class="notebtn" data-act="edit" data-id="${b.id}" style="margin-left:14px;color:var(--muted)">Edit block</button>
+        </div>
+        <button class="check ${b.done?'on':''}" data-act="check" data-id="${b.id}" aria-label="Mark complete">✓</button>
+      </div>`;
+    tl.appendChild(el);
+  });
+
+  // variety nudge: same completed title 4+ times in the last 5 days
+  const nudgeEl = document.getElementById('nudge');
+  nudgeEl.innerHTML = '';
+  if (viewDate === todayISO()){
+    const counts = {};
+    for (let i = 1; i <= 5; i++){
+      const d = DB.days[shiftISO(todayISO(), -i)];
+      if (d) d.blocks.forEach(b=>{ if (b.done) counts[b.title] = (counts[b.title]||0)+1; });
+    }
+    const repeat = Object.entries(counts).find(([,n]) => n >= 4);
+    if (repeat){
+      const match = blocks.find(b => b.title === repeat[0] && !b.done);
+      nudgeEl.innerHTML = `<div class="nudge"><div class="spark">✨</div>
+        <div class="ntxt">You've done <strong>${esc(repeat[0])}</strong> ${repeat[1]} days running — amazing consistency!
+        ${match ? 'Tap <strong>✨ Mix it up</strong> on that block for a fresh angle at the same goal.' : 'Consider a fresh angle at the same goal today.'}</div></div>`;
+    }
+  }
+
+  // progress strip
+  const done = blocks.filter(b=>b.done);
+  const pct = blocks.length ? Math.round(done.length / blocks.length * 100) : 0;
+  const hrsDone = done.reduce((s,b)=>s+hours(b),0);
+  const hrsAll = blocks.reduce((s,b)=>s+hours(b),0);
+  document.getElementById('ringPct').textContent = pct + '%';
+  document.getElementById('ringFg').style.strokeDashoffset = 150.8 * (1 - pct/100);
+  document.getElementById('stripTitle').textContent =
+    pct === 100 && blocks.length ? 'Day complete — proud of you ✦' :
+    pct >= 50 ? 'Over halfway there' :
+    done.length ? 'Momentum is building' : 'Ready when you are';
+  document.getElementById('stripSub').textContent =
+    `${hrsDone.toFixed(1)} of ${hrsAll.toFixed(1)} hrs invested in you`;
+  document.getElementById('streakNum').textContent = calcStreak();
+}
+
+function calcStreak(){
+  let n = 0, iso = todayISO();
+  // today counts if anything is done; otherwise start from yesterday
+  const todayDone = DB.days[iso] && DB.days[iso].blocks.some(b=>b.done);
+  if (!todayDone) iso = shiftISO(iso, -1);
+  while (DB.days[iso] && DB.days[iso].blocks.some(b=>b.done)){
+    n++; iso = shiftISO(iso, -1);
+  }
+  return n;
+}
+
+// ---------- rendering: PLAN ----------
+function renderPlan(){
+  const list = document.getElementById('planList');
+  const tpl = [...DB.template].sort((a,b)=>a.start.localeCompare(b.start));
+  list.innerHTML = tpl.length ? '' : '<div class="empty">Your routine is empty — add your first block.</div>';
+  tpl.forEach(t=>{
+    const cat = CATS[t.cat] || CATS.personal;
+    const el = document.createElement('div');
+    el.className = 'pblock';
+    el.innerHTML = `
+      <div class="swatch" style="background:${cat.color}"></div>
+      <div class="pmain">
+        <div class="pt">${esc(t.title)}</div>
+        <div class="ps">${fmtTime(t.start)} – ${fmtTime(t.end)} · ${esc(pName(t.cat))} · ${hours(t).toFixed(1)}h</div>
+      </div>
+      <button class="iconbtn" data-act="editTpl" data-id="${t.id}" aria-label="Edit">✎</button>`;
+    list.appendChild(el);
+  });
+}
+
+// ---------- rendering: PROGRESS ----------
+function renderProgress(){
+  // week dots (last 7 days ending today)
+  const wd = document.getElementById('weekDots');
+  wd.innerHTML = '';
+  for (let i = 6; i >= 0; i--){
+    const iso = shiftISO(todayISO(), -i);
+    const d = DB.days[iso];
+    const blocks = d ? d.blocks : null;
+    const doneN = blocks ? blocks.filter(b=>b.done).length : 0;
+    const cls = blocks && doneN === blocks.length && blocks.length ? 'full' : (doneN ? 'part' : '');
+    const day = new Date(iso+'T12:00:00').toLocaleDateString(undefined,{weekday:'narrow'});
+    wd.innerHTML += `<div class="wd"><div class="dotday ${cls}">${doneN||''}</div><div class="lbl">${day}</div></div>`;
+  }
+
+  // weekly hours per category vs target (target = routine hours x 7)
+  const target = {}, logged = {};
+  Object.keys(CATS).forEach(k => { target[k]=0; logged[k]=0; });
+  DB.template.forEach(t => target[t.cat] = (target[t.cat]||0) + hours(t) * 7);
+  for (let i = 0; i < 7; i++){
+    const d = DB.days[shiftISO(todayISO(), -i)];
+    if (d) d.blocks.forEach(b => { if (b.done) logged[b.cat] = (logged[b.cat]||0) + hours(b); });
+  }
+  const gb = document.getElementById('goalBars');
+  gb.innerHTML = '';
+  Object.entries(CATS).forEach(([k,cat])=>{
+    if (!target[k] && !logged[k]) return;
+    const t = target[k] || logged[k];
+    const pct = Math.min(100, Math.round(logged[k] / t * 100));
+    gb.innerHTML += `
+      <div class="goalcard">
+        <div class="gh">
+          <span class="gname" style="color:${cat.color}">${esc(pName(k))}</span>
+          <span class="gnum">${logged[k].toFixed(1)}h of ${t.toFixed(1)}h</span>
+        </div>
+        <div class="bar"><div style="width:${pct}%;background:${cat.color}"></div></div>
+      </div>`;
+  });
+  if (!gb.innerHTML) gb.innerHTML = '<div class="empty">Check off blocks on Today and your weekly hours will grow here.</div>';
+}
+
+// ---------- editor sheet ----------
+let selCat = 'dance';
+function openSheet(opts){
+  editing = opts; // {scope, id}
+  const isNew = !opts.id;
+  let b = null;
+  if (!isNew){
+    b = opts.scope === 'template'
+      ? DB.template.find(x=>x.id===opts.id)
+      : ensureDay(viewDate).blocks.find(x=>x.id===opts.id);
+  }
+  document.getElementById('sheetTitle').textContent =
+    isNew ? (opts.scope==='template' ? 'New routine block' : 'New block for this day') : 'Edit block';
+  document.getElementById('fTitle').value = b ? b.title : '';
+  document.getElementById('fStart').value = b ? b.start : '09:00';
+  document.getElementById('fEnd').value = b ? b.end : '10:00';
+  selCat = b ? b.cat : 'dance';
+  renderCatGrid();
+  document.getElementById('sheetDelete').style.display = isNew ? 'none' : 'block';
+  document.getElementById('sheetBg').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+}
+function closeSheet(){
+  document.getElementById('sheetBg').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+  editing = null;
+}
+function renderCatGrid(){
+  const g = document.getElementById('catGrid');
+  g.innerHTML = '';
+  Object.entries(CATS).forEach(([k,cat])=>{
+    const btn = document.createElement('button');
+    btn.className = 'catopt' + (k===selCat ? ' sel' : '');
+    btn.style.setProperty('--cc', cat.color);
+    btn.innerHTML = `<span class="dotc"></span>${esc(pName(k))}`;
+    btn.onclick = ()=>{ selCat = k; renderCatGrid(); };
+    g.appendChild(btn);
+  });
+}
+function saveSheet(){
+  const title = document.getElementById('fTitle').value.trim();
+  const start = document.getElementById('fStart').value || '09:00';
+  const end = document.getElementById('fEnd').value || '10:00';
+  if (!title){ toast('Give it a name first'); return; }
+  if (end <= start){ toast('End time must be after start'); return; }
+  const data = {title, start, end, cat: selCat};
+  if (editing.scope === 'template'){
+    if (editing.id){
+      Object.assign(DB.template.find(x=>x.id===editing.id), data);
+    } else DB.template.push({id: uid(), ...data});
+  } else {
+    const day = ensureDay(viewDate);
+    if (editing.id){
+      Object.assign(day.blocks.find(x=>x.id===editing.id), data);
+    } else day.blocks.push({id: uid(), ...data, done:false, note:''});
+  }
+  invalidatePreviews(); store.save(DB); closeSheet(); renderAll(); toast('Saved ✓');
+}
+function deleteSheet(){
+  if (editing.scope === 'template'){
+    DB.template = DB.template.filter(x=>x.id!==editing.id);
+  } else {
+    const day = ensureDay(viewDate);
+    day.blocks = day.blocks.filter(x=>x.id!==editing.id);
+  }
+  invalidatePreviews(); store.save(DB); closeSheet(); renderAll(); toast('Deleted');
+}
+
+// ---------- suggestion sheet ----------
+let sugBlockId = null, sugOffset = 0;
+function openSuggestions(id){
+  sugBlockId = id; sugOffset = 0;
+  const b = ensureDay(viewDate).blocks.find(x=>x.id===id);
+  if (!b) return;
+  const cat = CATS[b.cat] || CATS.personal;
+  document.getElementById('sugTitle').textContent = `Fresh ideas · ${pName(b.cat)}`;
+  document.getElementById('sugBg').classList.add('open');
+  document.getElementById('sugSheet').classList.add('open');
+  loadSuggestions(b);
+}
+function closeSuggestions(){
+  document.getElementById('sugBg').classList.remove('open');
+  document.getElementById('sugSheet').classList.remove('open');
+  sugBlockId = null;
+}
+async function loadSuggestions(b){
+  const body = document.getElementById('sugBody');
+  body.innerHTML = `<div class="thinking">Your coach is thinking
+    <span class="dots"><span></span><span></span><span></span></span></div>`;
+  let sugs, source = 'coach';
+  if (hasPremium() && aiAvailable !== false){
+    try{
+      sugs = await fetchAISuggestions(b);
+      aiAvailable = true; source = 'ai';
+    }catch(e){ if (String(e.message) !== 'not_subscribed') aiAvailable = false; }
+  }
+  if (!sugs) sugs = fallbackSuggestions(b, sugOffset);
+  if (sugBlockId !== b.id) return; // sheet was closed meanwhile
+  const upsell = (!hasPremium() && Billing.plugin())
+    ? `<div class="sug" data-paywall="1" style="border-color:var(--gold);background:#FDF8EE">
+         <div class="st">✨ Coach Premium — ideas personalized to <em>your</em> journal</div>
+         <div class="sw">The AI Coach reads your recent notes and suggests exactly what to do next. ${esc(Billing.priceText)}.</div>
+         <div class="tap" style="color:var(--gold)">Learn more</div></div>`
+    : '';
+  body.innerHTML = upsell + sugs.map((s,i)=>`
+    <div class="sug" data-sug="${i}">
+      <div class="st">${esc(s.title)}</div>
+      <div class="sw">${esc(s.why||'')}</div>
+      <div class="tap">Tap to swap into this block</div>
+    </div>`).join('') +
+    `<div class="coachnote">${source==='ai'
+      ? 'Ideas generated by AI from her recent activity for this pillar. Tap one, or shuffle for more.'
+      : 'Ideas from the built-in coach, rotated daily and steered away from repeats.'}</div>`;
+  body._sugs = sugs;
+}
+document.getElementById('sugBody').addEventListener('click', e=>{
+  if (e.target.closest('[data-paywall]')){ closeSuggestions(); openPaywall(); return; }
+  const card = e.target.closest('[data-sug]');
+  if (!card) return;
+  const s = document.getElementById('sugBody')._sugs[Number(card.dataset.sug)];
+  const b = ensureDay(viewDate).blocks.find(x=>x.id===sugBlockId);
+  if (b && s){
+    b.title = s.title; b.done = false;
+    store.save(DB); closeSuggestions(); renderToday(); toast('Block updated ✨');
+  }
+});
+document.getElementById('sugMore').onclick = ()=>{
+  sugOffset++;
+  const b = ensureDay(viewDate).blocks.find(x=>x.id===sugBlockId);
+  if (b){ aiAvailable = aiAvailable === true ? true : false; loadSuggestions(b); }
+};
+document.getElementById('sugBg').onclick = closeSuggestions;
+
+// ---------- events ----------
+document.getElementById('timeline').addEventListener('click', e=>{
+  const btn = e.target.closest('[data-act]');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  const day = ensureDay(viewDate);
+  const b = day.blocks.find(x=>x.id===id);
+  if (!b) return;
+  if (btn.dataset.act === 'check'){ b.done = !b.done; store.save(DB); renderToday(); }
+  if (btn.dataset.act === 'note'){ b._open = !b._open; renderToday();
+    if (b._open){ const ta = document.querySelector(`[data-note="${id}"]`); if (ta) ta.focus(); } }
+  if (btn.dataset.act === 'edit'){ openSheet({scope:'day', id}); }
+  if (btn.dataset.act === 'mix'){ openSuggestions(id); }
+});
+document.getElementById('timeline').addEventListener('input', e=>{
+  const ta = e.target.closest('[data-note]');
+  if (!ta) return;
+  const b = ensureDay(viewDate).blocks.find(x=>x.id===ta.dataset.note);
+  if (b){ b.note = ta.value; store.save(DB); }
+});
+document.getElementById('planList').addEventListener('click', e=>{
+  const btn = e.target.closest('[data-act="editTpl"]');
+  if (btn) openSheet({scope:'template', id: btn.dataset.id});
+});
+
+document.getElementById('prevDay').onclick = ()=>{ viewDate = shiftISO(viewDate,-1); renderToday(); };
+document.getElementById('nextDay').onclick = ()=>{ viewDate = shiftISO(viewDate, 1); renderToday(); };
+document.getElementById('jumpToday').onclick = ()=>{ viewDate = todayISO(); renderToday(); };
+document.getElementById('addOneOff').onclick = ()=>openSheet({scope:'day', id:null});
+document.getElementById('addRoutine').onclick = ()=>openSheet({scope:'template', id:null});
+document.getElementById('applyToday').onclick = ()=>{
+  const iso = todayISO();
+  const existing = DB.days[iso];
+  const fresh = freshBlocks(iso);
+  if (existing){
+    // keep notes/done for blocks with matching titles
+    fresh.forEach(f=>{
+      const m = existing.blocks.find(b=>b.title===f.title);
+      if (m){ f.done = m.done; f.note = m.note; }
+    });
+  }
+  DB.days[iso] = {blocks: fresh};
+  store.save(DB); viewDate = iso; switchTab('today'); toast('Routine applied to today');
+};
+document.getElementById('sheetBg').onclick = closeSheet;
+document.getElementById('sheetSave').onclick = saveSheet;
+document.getElementById('sheetDelete').onclick = deleteSheet;
+
+// export / import
+document.getElementById('exportBtn').onclick = ()=>{
+  const blob = new Blob([JSON.stringify(DB, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `dream-day-backup-${todayISO()}.json`;
+  a.click();
+  toast('Backup downloaded');
+};
+document.getElementById('importBtn').onclick = ()=>document.getElementById('importFile').click();
+document.getElementById('importFile').onchange = e=>{
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const d = JSON.parse(r.result);
+      if (!d.template || !d.days) throw 0;
+      DB = d; store.save(DB); renderAll(); toast('Backup restored ✓');
+    }catch{ toast('That file is not a Dream Day backup'); }
+  };
+  r.readAsText(f);
+};
+
+// ================= DICTATED SCHEDULE =================
+const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// ---- AI parser ----
+async function aiParseSchedule(text){
+  const prompt =
+`You convert spoken schedule descriptions into structured JSON for a planner app.
+Today is ${fmtDate(todayISO())} (${todayISO()}), weekday ${weekdayOf(todayISO())} where 0=Sunday.
+
+She said: "${text.replace(/"/g,"'")}"
+
+Extract every class, work shift, appointment, and deadline. Rules:
+- Recurring items (classes, shifts) get "days": array of weekday numbers (0=Sun..6=Sat).
+- One-time items (projects due, exams, appointments) get "date": "YYYY-MM-DD" (future; if the year is ambiguous pick the next occurrence). For a deadline, create a work-session block ON that date titled like "Finish <thing> — due today", and if it sounds substantial, add 1-2 prep sessions on earlier dates titled "Work on <thing>".
+- "cat" must be one of: school, work, dance, influencer, actress, money, health, faith, heart, personal.
+- Times as 24h "HH:MM". If no time was given for a deadline, use 15:00-16:00. If a shift/class has no end, estimate sensibly.
+- "until" (optional, "YYYY-MM-DD") only if she said when it ends.
+
+Respond with ONLY a JSON array, no markdown, no commentary:
+[{"title":"...","cat":"school","start":"09:00","end":"10:15","days":[1,3,5]},
+ {"title":"...","cat":"school","start":"15:00","end":"16:00","date":"2026-07-24"}]`;
+  const raw = await aiCall(prompt, 1500);
+  const arr = JSON.parse(raw.replace(/```json|```/g,'').trim());
+  if (!Array.isArray(arr)) throw new Error('bad shape');
+  return arr.filter(x => x.title && x.start && x.end && (x.days || x.date));
+}
+
+// ---- built-in parser (offline fallback) ----
+function parseTimeToken(h, m, mer){
+  h = Number(h); m = m ? Number(m) : 0;
+  if (mer){ mer = mer[0]; if (mer==='p' && h<12) h+=12; if (mer==='a' && h===12) h=0; }
+  return {h, m, explicit: !!mer};
+}
+function to24(t){ return String(t.h).padStart(2,'0') + ':' + String(t.m).padStart(2,'0'); }
+function stripFiller(s){
+  const filler = new Set(['this','that','semester','year','week','i','i\u2019ll','ill','have','has','my','a','an','the','got','also','will','be','taking','take','is','are','on','do','doing','then','and']);
+  let words = s.trim().split(/\s+/);
+  while (words.length > 1 && filler.has(words[0])) words.shift();
+  return words.join(' ');
+}
+function heuristicParse(text){
+  const items = [];
+  const segs = text.toLowerCase()
+    .split(/(?:\.|;|\n|,(?!\s*(?:and\s+|or\s+)?(?:mon|tue|wed|thu|fri|sat|sun))|\s+(?:and\s+(?=i\b|my\b|then\b|on\s|every\b|there\b|we\b)|also\s+|then\s+|plus\s+))/)
+    .map(s=>s && s.trim()).filter(Boolean);
+  const dayMap = {sunday:0,sun:0,monday:1,mon:1,tuesday:2,tue:2,tues:2,wednesday:3,wed:3,thursday:4,thu:4,thur:4,thurs:4,friday:5,fri:5,saturday:6,sat:6};
+  const months = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,
+    jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,sept:9,oct:10,nov:11,dec:12};
+
+  segs.forEach(seg=>{
+    // ---- days of week ----
+    let days = [];
+    if (/every ?day|daily/.test(seg)) days = [0,1,2,3,4,5,6];
+    else if (/weekday/.test(seg)) days = [1,2,3,4,5];
+    else if (/weekend/.test(seg)) days = [0,6];
+    else {
+      Object.entries(dayMap).forEach(([w,n])=>{
+        if (new RegExp('\\b'+w+'s?\\b').test(seg) && !days.includes(n)) days.push(n);
+      });
+      if (/\bmwf\b/.test(seg)) days = [1,3,5];
+      if (/\bt ?th\b|\btth\b/.test(seg)) days = [2,4];
+    }
+    days.sort();
+
+    // ---- explicit date ("july 24", "7/24", "the 24th of july") ----
+    let date = null;
+    let dm = seg.match(/\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t|tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+(\d{1,2})(?:st|nd|rd|th)?\b/);
+    if (!dm){
+      const alt = seg.match(/\bthe\s+(\d{1,2})(?:st|nd|rd|th)?\s+of\s+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t|tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)/);
+      if (alt) dm = [alt[0], alt[2], alt[1]];
+    }
+    if (dm){
+      const mo = months[dm[1].replace('.','')], dd = Number(dm[2]);
+      if (mo && dd){
+        const now = new Date();
+        let y = now.getFullYear();
+        let iso = `${y}-${String(mo).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;
+        if (iso < todayISO()) iso = `${y+1}-${String(mo).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;
+        date = iso;
+      }
+    } else {
+      const slash = seg.match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\b/);
+      if (slash){
+        let y = slash[3] ? (slash[3].length===2 ? 2000+Number(slash[3]) : Number(slash[3])) : new Date().getFullYear();
+        let iso = `${y}-${String(Number(slash[1])).padStart(2,'0')}-${String(Number(slash[2])).padStart(2,'0')}`;
+        if (!slash[3] && iso < todayISO()) iso = `${y+1}${iso.slice(4)}`;
+        date = iso;
+      }
+    }
+
+    // ---- time range ----
+    let start = null, end = null;
+    const tr = seg.match(/(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?\s*(?:-|–|to|until|till|through)\s*(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?/);
+    if (tr){
+      let t1 = parseTimeToken(tr[1], tr[2], tr[3]);
+      let t2 = parseTimeToken(tr[4], tr[5], tr[6]);
+      if (!t1.explicit && !t2.explicit){
+        if (t1.h >= 7 && t1.h <= 11){/* morning start ok */} else if (t1.h <= 6) t1.h += 12;
+        if (t2.h*60+t2.m <= t1.h*60+t1.m) t2.h += 12;
+      } else if (t1.explicit && !t2.explicit){
+        if (t2.h*60+t2.m <= t1.h*60+t1.m && t2.h < 12) t2.h += 12;
+      } else if (!t1.explicit && t2.explicit){
+        // "4 to 9pm" -> 4pm; "9 to 5pm" -> 9am
+        if (t2.h >= 12 && t1.h < 12 && t1.h + 12 < t2.h) t1.h += 12;
+      }
+      if (t2.h*60+t2.m > t1.h*60+t1.m){ start = to24(t1); end = to24(t2); }
+    }
+
+    // ---- category & title ----
+    const isDeadline = /project|due|exam|test|paper|assignment|deadline|midterm|final/.test(seg);
+    let cat = 'personal';
+    if (/class|school|lecture|semester|course|college|lab\b/.test(seg) || isDeadline) cat = 'school';
+    if (/\bwork|shift|job\b/.test(seg)) cat = 'work';
+    if (/dance|choreo/.test(seg)) cat = 'dance';
+    if (/audition|acting|monologue/.test(seg)) cat = 'actress';
+
+    let title = null;
+    const cm = seg.match(/([a-z][a-z ]{1,28}?)\s+(?:class|lecture|lab|course)\b/);
+    if (cm) title = stripFiller(cm[1]);
+    if (isDeadline){
+      const pm = seg.match(/([a-z][a-z ]{1,28}?)\s+(?:project|paper|exam|test|assignment|midterm|final)\b/);
+      let what = pm ? stripFiller(pm[1]) : '';
+      const type = ['midterm','exam','test','project','paper','assignment','final'].find(t=>seg.includes(t));
+      if (what.split(' ').pop() === type) what = what.split(' ').slice(0,-1).join(' ');
+      title = (what ? cap(what)+' ' : '') + type;
+    }
+    if (!title){
+      if (cat === 'work') title = 'work shift';
+      else if (cat === 'school') title = 'class';
+      else if (start) title = seg.length < 40 ? seg : 'commitment';
+    }
+    if (!title) return;
+    title = cap(title);
+
+    if (isDeadline && date){
+      const isTest = /exam|test|midterm|final/.test(title);
+      items.push({title: isTest ? `${title} — today` : `Finish ${title.toLowerCase()} — due today`,
+        cat, start: start||'15:00', end: end||'16:00', date});
+      const prep = shiftISO(date, -2);
+      if (prep > todayISO()) items.push({
+        title: isTest ? `Study for ${title.toLowerCase()}` : `Work on ${title.toLowerCase()}`,
+        cat, start:'15:00', end:'16:00', date: prep});
+    } else if (days.length && start){
+      items.push({title, cat, start, end, days});
+    } else if (date && start){
+      items.push({title, cat, start, end, date});
+    }
+  });
+  return items;
+}
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// ---- dictation sheet ----
+let recog = null, recording = false, proposed = [];
+function openDict(){
+  document.getElementById('dictBg').classList.add('open');
+  document.getElementById('dictSheet').classList.add('open');
+  document.getElementById('dictReview').innerHTML = '';
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  document.getElementById('micBtn').style.display = SR ? 'flex' : 'none';
+  if (!SR) document.getElementById('micLabel').innerHTML =
+    'Tap the box below, then use the <strong>🎤 mic key on your keyboard</strong> to dictate.';
+}
+function closeDict(){
+  stopMic();
+  document.getElementById('dictBg').classList.remove('open');
+  document.getElementById('dictSheet').classList.remove('open');
+}
+function startMic(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  recog = new SR();
+  recog.continuous = true; recog.interimResults = true; recog.lang = 'en-US';
+  let base = document.getElementById('dictText').value;
+  if (base && !/\s$/.test(base)) base += ' ';
+  recog.onresult = e=>{
+    let finals = '', interim = '';
+    for (let i = 0; i < e.results.length; i++){
+      if (e.results[i].isFinal) finals += e.results[i][0].transcript + ' ';
+      else interim += e.results[i][0].transcript;
+    }
+    document.getElementById('dictText').value = base + finals + interim;
+  };
+  recog.onend = ()=>{ if (recording) try{recog.start()}catch(e){} };
+  recog.onerror = ()=>{ stopMic(); toast('Mic unavailable — type or use your keyboard mic'); };
+  try{ recog.start(); recording = true;
+    document.getElementById('micBtn').classList.add('rec');
+    document.getElementById('micBtn').textContent = '⏸';
+  }catch(e){ toast('Mic unavailable — type instead'); }
+}
+function stopMic(){
+  recording = false;
+  if (recog){ try{recog.stop()}catch(e){} recog = null; }
+  const mb = document.getElementById('micBtn');
+  mb.classList.remove('rec'); mb.textContent = '🎤';
+}
+document.getElementById('micBtn').onclick = ()=> recording ? stopMic() : startMic();
+document.getElementById('dictateBtn').onclick = openDict;
+document.getElementById('dictBg').onclick = closeDict;
+
+document.getElementById('dictParse').onclick = async ()=>{
+  stopMic();
+  const text = document.getElementById('dictText').value.trim();
+  if (!text){ toast('Say or type your schedule first'); return; }
+  const rv = document.getElementById('dictReview');
+  rv.innerHTML = `<div class="thinking">Reading your schedule
+    <span class="dots"><span></span><span></span><span></span></span></div>`;
+  let items = null, source = 'built-in';
+  if (hasPremium() && aiAvailable !== false){
+    try{ items = await aiParseSchedule(text); aiAvailable = true; source = 'ai'; }
+    catch(e){ if (String(e.message) !== 'not_subscribed') aiAvailable = false; }
+  }
+  if (!items || !items.length) items = heuristicParse(text);
+  proposed = items.map(x=>({...x, include:true}));
+  renderReview(source);
+};
+function describeItem(x){
+  const cat = CATS[x.cat] || CATS.personal;
+  const time = `${fmtTime(x.start)}–${fmtTime(x.end)}`;
+  if (x.days) return `${x.days.map(d=>DAY_NAMES[d]).join(' · ')} · ${time} · repeats weekly · ${pName(x.cat)}`;
+  return `${fmtDate(x.date)} · ${time} · one time · ${pName(x.cat)}`;
+}
+function renderReview(source){
+  const rv = document.getElementById('dictReview');
+  if (!proposed.length){
+    rv.innerHTML = `<div class="empty">I couldn't pick out any schedule items.<br>
+      Try including days and times, like <em>"work Tuesday and Thursday 4 to 9 PM."</em></div>`;
+    return;
+  }
+  rv.innerHTML = `<div class="sectionlabel">Here's what I heard — tap to include or skip</div>` +
+    proposed.map((x,i)=>`
+      <div class="rev ${x.include?'on':'off'}" data-rev="${i}">
+        <div class="rmain"><div class="rt">${esc(x.title)}</div><div class="rs">${describeItem(x)}</div></div>
+        <button class="rtog" aria-label="Include">✓</button>
+      </div>`).join('') +
+    `<div class="coachnote" style="margin-bottom:10px">${source==='ai'
+      ? 'Understood by AI — double-check times before adding.'
+      : 'Understood by the built-in reader — double-check times before adding.'}</div>
+    <button class="bigbtn primary" id="dictApply">Add to my schedule</button>`;
+  rv.querySelectorAll('[data-rev]').forEach(el=>{
+    el.onclick = ()=>{ const x = proposed[Number(el.dataset.rev)]; x.include = !x.include; renderReview(source); };
+  });
+  document.getElementById('dictApply').onclick = applyProposed;
+}
+function applyProposed(){
+  let nRec = 0, nDated = 0;
+  proposed.filter(x=>x.include).forEach(x=>{
+    if (x.days){
+      DB.commitments.push({id: uid(), title:x.title, cat:x.cat||'personal', start:x.start, end:x.end,
+        days:x.days, until:x.until||null, from: todayISO()});
+      nRec++;
+    } else if (x.date){
+      DB.commitments.push({id: uid(), title:x.title, cat:x.cat||'personal', start:x.start, end:x.end, date:x.date});
+      // if that day already exists, drop the new block straight in
+      if (DB.days[x.date]){
+        DB.days[x.date].blocks.push({id: uid(), title:x.title, cat:x.cat||'personal',
+          start:x.start, end:x.end, done:false, note:'', fixed:true});
+      }
+      nDated++;
+    }
+  });
+  // rebuild TODAY if it hasn't been worked on yet, so new commitments show immediately
+  const iso = todayISO();
+  if (DB.days[iso] && !DB.days[iso].blocks.some(b=>b.done || b.note)) delete DB.days[iso];
+  invalidatePreviews(); store.save(DB);
+  closeDict(); renderAll();
+  toast(`Added ${nRec + nDated} item${nRec+nDated===1?'':'s'} ✓`);
+}
+
+// ---- commitments list in Plan ----
+function renderCommitments(){
+  const list = document.getElementById('cmtList');
+  const label = document.getElementById('cmtLabel');
+  const cmts = DB.commitments || [];
+  label.style.display = cmts.length ? 'block' : 'none';
+  list.innerHTML = '';
+  cmts.forEach(c=>{
+    const cat = CATS[c.cat] || CATS.personal;
+    const when = c.days ? c.days.map(d=>DAY_NAMES[d]).join(' · ') + ' · weekly' : fmtDate(c.date);
+    const el = document.createElement('div');
+    el.className = 'cmt';
+    el.innerHTML = `
+      <div class="swatch" style="background:${cat.color}"></div>
+      <div class="cmain"><div class="ct">${esc(c.title)}</div>
+        <div class="cs">${when} · ${fmtTime(c.start)}–${fmtTime(c.end)}</div></div>
+      <button class="iconbtn" data-cmt="${c.id}" aria-label="Remove">✕</button>`;
+    list.appendChild(el);
+  });
+}
+document.getElementById('cmtList').addEventListener('click', e=>{
+  const btn = e.target.closest('[data-cmt]');
+  if (!btn) return;
+  DB.commitments = DB.commitments.filter(c=>c.id !== btn.dataset.cmt);
+  invalidatePreviews(); store.save(DB); renderCommitments(); toast('Commitment removed');
+});
+
+// ---------- pillar names (user-renamable) ----------
+function pName(k){ return (DB.pillarNames && DB.pillarNames[k]) || (CATS[k] ? CATS[k].name : k); }
+
+// ---------- paywall ----------
+function openPaywall(){
+  document.getElementById('payPrice').textContent = Billing.priceText;
+  document.getElementById('payBg').classList.add('open');
+  document.getElementById('paySheet').classList.add('open');
+}
+function closePaywall(){
+  document.getElementById('payBg').classList.remove('open');
+  document.getElementById('paySheet').classList.remove('open');
+}
+document.getElementById('payBg').onclick = closePaywall;
+document.getElementById('payTerms').onclick = e=>{e.preventDefault(); window.open(CONFIG.LINKS.terms,'_blank');};
+document.getElementById('payPrivacy').onclick = e=>{e.preventDefault(); window.open(CONFIG.LINKS.privacy,'_blank');};
+document.getElementById('payBuy').onclick = async ()=>{
+  try{ await Billing.purchase();
+    if (Billing.premium){ closePaywall(); toast('Welcome to Coach Premium ✨'); }
+  }catch(e){ toast('Purchase didn\u2019t complete'); }
+};
+document.getElementById('payRestore').onclick = async ()=>{
+  try{ await Billing.restore();
+    toast(Billing.premium ? 'Premium restored ✓' : 'No purchases found');
+    if (Billing.premium) closePaywall();
+  }catch(e){ toast('Restore unavailable'); }
+};
+
+// ---------- onboarding ----------
+const ONB_PILLARS = ['dance','influencer','actress','money','health','faith','heart'];
+const ONB_STARTERS = {
+  dance:'Craft hour — practice & drills', influencer:'Creator hour — research & content',
+  actress:'Acting hour — monologues & study', money:'Money hour — learn & review budget',
+  health:'Workout + movement', faith:'Prayer, meditation & journaling',
+  heart:'Home & heart — cook, connect, care'
+};
+let onbSel = {};
+function onbShow(step){
+  document.querySelectorAll('.onbstep').forEach(s=>s.classList.remove('active'));
+  document.getElementById('onb'+step).classList.add('active');
+  document.getElementById('onb').scrollTop = 0;
+}
+function startOnboarding(){
+  onbSel = {dance:true, influencer:true, actress:true, money:true, health:true, faith:true, heart:false};
+  const box = document.getElementById('onbPillars');
+  box.innerHTML = '';
+  ONB_PILLARS.forEach(k=>{
+    const cat = CATS[k];
+    const el = document.createElement('div');
+    el.className = 'pillcard' + (onbSel[k] ? ' sel' : '');
+    el.style.setProperty('--pc', cat.color);
+    el.innerHTML = `<div class="pdot"></div>
+      <input type="text" value="${esc(cat.name)}" data-pn="${k}" maxlength="24">
+      <button class="ptog" data-pt="${k}" aria-label="Include">✓</button>`;
+    box.appendChild(el);
+  });
+  box.onclick = e=>{
+    const t = e.target.closest('[data-pt]');
+    if (!t) return;
+    const k = t.dataset.pt;
+    onbSel[k] = !onbSel[k];
+    t.closest('.pillcard').classList.toggle('sel', onbSel[k]);
+  };
+  document.getElementById('onb').classList.add('open');
+}
+function onbBuildTemplate(){
+  const startVal = document.getElementById('onbStart').value || '08:30';
+  let [h, m] = startVal.split(':').map(Number);
+  const names = {};
+  document.querySelectorAll('[data-pn]').forEach(inp=>{
+    const v = inp.value.trim();
+    if (v && v !== CATS[inp.dataset.pn].name) names[inp.dataset.pn] = v;
+  });
+  const order = ONB_PILLARS.filter(k=>onbSel[k]);
+  const tpl = [];
+  const push = (title, cat, mins)=>{
+    const s = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    m += mins; h += Math.floor(m/60); m %= 60;
+    const e = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    tpl.push({id: uid(), start:s, end:e, title, cat});
+  };
+  order.forEach((k,i)=>{
+    if (i === Math.min(2, order.length-1) && order.length > 2) push('Break — breathe, snack, move', 'personal', 30);
+    const mins = (k==='faith') ? 30 : 60;
+    push(ONB_STARTERS[k], k, mins);
+  });
+  return {tpl, names};
+}
+document.getElementById('onbNext1').onclick = ()=> onbShow(2);
+document.getElementById('onbNext2').onclick = ()=>{
+  if (!ONB_PILLARS.some(k=>onbSel[k])){ toast('Pick at least one pillar'); return; }
+  renderOnbPreview(); onbShow(3);
+};
+document.getElementById('onbStart').onchange = renderOnbPreview;
+function renderOnbPreview(){
+  const {tpl, names} = onbBuildTemplate();
+  document.getElementById('onbPreview').innerHTML = tpl.map(t=>{
+    const cat = CATS[t.cat] || CATS.personal;
+    return `<div class="pblock"><div class="swatch" style="background:${cat.color}"></div>
+      <div class="pmain"><div class="pt">${esc(t.title)}</div>
+      <div class="ps">${fmtTime(t.start)} – ${fmtTime(t.end)} · ${esc(names[t.cat] || cat.name)}</div></div></div>`;
+  }).join('');
+}
+document.getElementById('onbGo').onclick = ()=>{
+  const {tpl, names} = onbBuildTemplate();
+  DB.template = tpl;
+  DB.pillarNames = names;
+  invalidatePreviews();
+  DB.profile = { name: document.getElementById('onbName').value.trim(), onboarded: true };
+  store.save(DB);
+  document.getElementById('onb').classList.remove('open');
+  renderAll(); setGreeting();
+  toast('Your journey starts now ✦');
+};
+
+// tabs
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id==='view-'+name));
+  if (name==='today') renderToday();
+  if (name==='plan'){ renderPlan(); renderCommitments(); }
+  if (name==='progress') renderProgress();
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick = ()=>switchTab(t.dataset.tab));
+
+let toastT;
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+function renderAll(){ renderToday(); renderPlan(); renderCommitments(); renderProgress(); }
+
+// greeting by time of day (personalized after onboarding)
+function setGreeting(){
+  const h = new Date().getHours();
+  const who = DB.profile && DB.profile.name ? `, ${DB.profile.name}` : '';
+  const g = h < 12 ? `Good morning${who} — let’s build your dream.` :
+            h < 17 ? `Good afternoon${who} — keep investing in you.` :
+                     `Good evening${who} — reflect on today’s work.`;
+  document.getElementById('greeting').textContent = g;
+}
+
+// boot
+(async function(){
+  const saved = await store.load();
+  if (saved && saved.template && saved.days) DB = saved;
+  if (!DB.commitments) DB.commitments = [];
+  Billing.init(); // async, non-blocking
+  setGreeting();
+  renderAll();
+  if (!saved) startOnboarding(); // brand-new user: begin with the dream
+})();
+</script>
+</body>
+</html>
